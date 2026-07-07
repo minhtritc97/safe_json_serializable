@@ -380,7 +380,7 @@
       "languageVersion": "3.4"
     },
     {
-      "name": "safe_type_helpers_builder",
+      "name": "safe_json_serializable",
       "rootUri": "../",
       "packageUri": "lib/",
       "languageVersion": "3.8"

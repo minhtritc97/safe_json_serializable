@@ -1,10 +1,10 @@
 {
   "roots": [
-    "safe_type_helpers_builder"
+    "safe_json_serializable"
   ],
   "packages": [
     {
-      "name": "safe_type_helpers_builder",
+      "name": "safe_json_serializable",
       "version": "0.1.0",
       "dependencies": [
         "analyzer",

@@ -1,6 +1,6 @@
 builders:
   safe_json_serializable:
-    import: "package:safe_type_helpers_builder/safe_type_helpers_builder.dart"
+    import: "package:safe_json_serializable/safe_json_serializable.dart"
     builder_factories: ["safeJsonSerializable"]
     build_extensions: { ".dart": ["json_serializable.g.part"] }
     auto_apply: dependents
