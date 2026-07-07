@@ -81,6 +81,32 @@ targets:
 > its builder would otherwise collide with this one. If it isn't, disabling it
 > is a harmless no-op.
 
+### Options and `generate_for`
+
+This builder honours all the usual json_serializable options
+(`explicit_to_json`, `include_if_null`, `field_rename`, `create_to_json`, …) —
+but put them **under the `safe_json_serializable` builder**, not under the
+disabled `json_serializable` one:
+
+```yaml
+targets:
+  $default:
+    builders:
+      json_serializable:
+        enabled: false
+      safe_json_serializable:safe_json_serializable:
+        enabled: true
+        options:
+          explicit_to_json: true
+          include_if_null: false
+          field_rename: snake
+        generate_for:
+          include:
+            - lib/**/models/**.dart
+```
+
+Options left on the disabled `json_serializable` builder are ignored.
+
 ## Usage
 
 Import `safe_json_annotation` in your models (it re-exports `json_annotation`,

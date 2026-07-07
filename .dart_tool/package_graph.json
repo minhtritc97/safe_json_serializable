@@ -9,6 +9,7 @@
       "dependencies": [
         "analyzer",
         "build",
+        "json_annotation",
         "json_serializable",
         "source_gen"
       ],
@@ -115,6 +116,13 @@
         "pubspec_parse",
         "source_gen",
         "source_helper"
+      ]
+    },
+    {
+      "name": "json_annotation",
+      "version": "4.12.0",
+      "dependencies": [
+        "meta"
       ]
     },
     {
@@ -411,13 +419,6 @@
       "name": "logging",
       "version": "1.3.0",
       "dependencies": []
-    },
-    {
-      "name": "json_annotation",
-      "version": "4.12.0",
-      "dependencies": [
-        "meta"
-      ]
     },
     {
       "name": "graphs",
