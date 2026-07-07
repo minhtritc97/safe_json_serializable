@@ -52,10 +52,10 @@ Two packages, mirroring `json_annotation` / `json_serializable`:
 
 ```yaml
 dependencies:
-  safe_json_annotation: ^0.1.0   # runtime helpers the generated code calls
+  safe_json_annotation: ^0.2.0   # runtime helpers the generated code calls
 
 dev_dependencies:
-  safe_json_serializable: ^0.1.0 # the build-time generator
+  safe_json_serializable: ^0.2.0 # the build-time generator
   build_runner: ^2.4.0
 ```
 

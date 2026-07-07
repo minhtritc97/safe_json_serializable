@@ -3,7 +3,7 @@ description: >-
   Crash-safe drop-in for json_serializable: runs its generator with tolerant
   TypeHelpers so backend type changes never crash fromJson. No fork, no
   per-field annotations.
-version: 0.1.0
+version: 0.2.0
 repository: https://github.com/minhtritc97/safe_json_serializable
 issue_tracker: https://github.com/minhtritc97/safe_json_serializable/issues
 topics:

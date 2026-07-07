@@ -1,3 +1,7 @@
+## 0.2.0
+
+* Support json_serializable options
+
 ## 0.1.0
 
 * Initial release.
