@@ -171,7 +171,10 @@ class SafeModelHelper extends TypeHelper<TypeHelperContext> {
     bool defaultProvided,
   ) {
     if (!_isModel(t)) return null;
-    final name = t.getDisplayString(withNullability: false);
+    // Bare type name without a trailing `?` (so `Address?` -> `Address`).
+    final display = t.getDisplayString();
+    final name =
+        display.endsWith('?') ? display.substring(0, display.length - 1) : display;
     final call = '$name.fromJson(asStringMap($expression))';
     return _nullable(t, defaultProvided)
         ? '($expression is Map ? $call : null)'
