@@ -141,9 +141,14 @@ class SafeListHelper extends TypeHelper<TypeHelperContext> {
     final elementExpr = context.deserialize(element, 'e');
     if (elementExpr == null) return null; // unknown element -> defer
     final inner = '[for (final e in ($expression as List)) $elementExpr]';
-    return _nullable(t, defaultProvided)
-        ? '($expression is List ? $inner : null)'
-        : "($expression is List ? $inner : failParse($expression, 'List'))";
+    if (_nullable(t, defaultProvided)) {
+      return '($expression is List ? $inner : null)';
+    }
+    // A non-null `List` falls back to empty instead of `failParse`: unlike a
+    // scalar, the empty list is the type's own neutral value, so it invents no
+    // data — the collection is simply known to hold nothing. Type argument is
+    // explicit so the literal can't infer `List<dynamic>` in a weak context.
+    return '($expression is List ? $inner : <${element.getDisplayString()}>[])';
   }
 }
 
@@ -178,7 +183,10 @@ class SafeModelHelper extends TypeHelper<TypeHelperContext> {
     final call = '$name.fromJson(asStringMap($expression))';
     return _nullable(t, defaultProvided)
         ? '($expression is Map ? $call : null)'
-        : call;
+        // Still fail-fast (no value can be invented for a required model), but
+        // via `failParse` so it reports a clear FormatException rather than
+        // letting `asStringMap` throw a bare `as Map` TypeError.
+        : "($expression is Map ? $call : failParse($expression, '$name'))";
   }
 }
 
