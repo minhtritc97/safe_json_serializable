@@ -13,7 +13,9 @@ topics:
   - json-serializable
 
 environment:
-  sdk: ^3.8.0
+  # `json_serializable` ^6.14.0 and `json_annotation` ^4.12.0 both require
+  # ^3.9.0; claiming ^3.8.0 here would be a constraint we can't honour.
+  sdk: ^3.9.0
 
 dependencies:
   analyzer: ">=6.0.0 <20.0.0"
