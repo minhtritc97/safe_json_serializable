@@ -27,6 +27,7 @@ class User {
   final List<int?>? scores;                  // not-a-list -> null · ["1","x"] -> [1, null]
   final Address? home;                       // non-object -> null (no crash)
   final List<Address?>? tags;                // non-list -> null · bad element -> null
+  final List<Address?> members;              // non-null list: not-a-list -> []
 }
 ```
 
@@ -52,10 +53,10 @@ Two packages, mirroring `json_annotation` / `json_serializable`:
 
 ```yaml
 dependencies:
-  safe_json_annotation: ^0.2.1   # runtime helpers the generated code calls
+  safe_json_annotation: ^0.2.2   # runtime helpers the generated code calls
 
 dev_dependencies:
-  safe_json_serializable: ^0.2.1 # the build-time generator
+  safe_json_serializable: ^0.3.0 # the build-time generator
   build_runner: ^2.4.0
 ```
 
@@ -154,7 +155,10 @@ the right behaviour per field automatically.
 | `List<int?>?`                  | not a list            | `null`                        |
 | `List<int?>?`                  | `["1","x",2]`         | `[1, null, 2]`                |
 | `Model?`                       | not an object         | `null`                        |
+| `Model` (no default)           | not an object, missing| **throws** `FormatException`  |
 | `List<Model?>?`                | not a list / bad elem | `null` / element `null`       |
+| `List<T?>` (non-null list)     | not a list, missing   | `[]`                          |
+| `List<T>` (non-null elements)  | bad element           | **throws** `FormatException`  |
 
 ### Nullable vs non-nullable (fail-fast)
 
@@ -165,6 +169,12 @@ the right behaviour per field automatically.
   that isn't there is a real problem you want surfaced, not hidden.
 - **Non-nullable with `@JsonKey(defaultValue: X)`**: same coercion, falls back
   to `X` instead of throwing.
+- **Non-nullable `List`** is the one exception: it falls back to `[]`. An empty
+  list is the type's own neutral value, so nothing is invented — the collection
+  is simply known to hold nothing, which is exactly what a missing list means.
+  A scalar has no such value (`0` and `''` are guesses), which is why it throws.
+  This applies to the list *container* only: elements keep their own rules, so a
+  bad element is `null` in a `List<T?>` and still throws in a `List<T>`.
 
 So pick the policy per field with idiomatic json_serializable tools: make it
 nullable to tolerate anything, or add `defaultValue:` to accept a fallback —
